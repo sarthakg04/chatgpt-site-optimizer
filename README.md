@@ -3,7 +3,7 @@
 **Keep ChatGPT responsive on long threads** by reducing live DOM size and loading older messages in fixed batches. Smooth scroll, predictable work, and lower memory usage on big conversations.
 
 > **Creator:** [Sarthak Gupta](https://www.linkedin.com/in/sarthakgupta04/)  
-> **Website:** https://<your-username>.github.io/chatgpt-optimizer-site/  
+> **Website:** https://sarthakg04.github.io/chatgpt-optimizer-site/  
 > **Chrome Web Store:** https://CWS_URL_HERE
 
 ---
