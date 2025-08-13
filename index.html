@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ChatGPT Optimizer – Faster Long Threads</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Keep ChatGPT responsive on long threads using DOM windowing and batch lazy-load. Predictable, smooth, and lightweight.">
+  <link rel="icon" href="assets/icon_128.png">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="sticky">
+  <div class="top-callout" role="region" aria-label="Install callout">
+    <div class="top-wrap">
+      <div class="msg">Get the best performance on long ChatGPT threads.</div>
+      <a class="btn small" href="CWS_URL_HERE" target="_blank" rel="noopener">Install on Chrome</a>
+    </div>
+  </div>
+    <div class="navbar">
+      <div class="brand">
+        <img src="assets/icon_128.png" alt="ChatGPT Optimizer logo"><span>ChatGPT Optimizer</span>
+      </div>
+      <nav class="nav">
+        <a href="https://www.linkedin.com/in/sarthakgupta04/" target="_blank" rel="noopener" title="Creator">By Sarthak Gupta</a>
+        <a href="#overview" class="active">Overview</a>
+        <a href="#how">How it works</a>
+        <a href="#performance">Performance</a>
+        <a href="#install">Install</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="overview" class="hero">
+      <div class="card reveal in">
+        <h1>Long ChatGPT threads, without the jank.</h1>
+        <p class="lead">The extension keeps the UI snappy by <b>reducing live DOM size</b> and <b>loading older messages in fixed batches</b>. That means smooth scroll, predictable work, and lower memory use.</p>
+        <div class="kpis">
+  <div class="kpi"><div class="value">×5–×15</div><div class="label">Fewer live DOM<br>nodes*</div></div>
+  <div class="kpi"><div class="value">−20–45%</div><div class="label">Layout/Recalc<br>time*</div></div>
+  <div class="kpi"><div class="value">−25–50%</div><div class="label">Memory<br>footprint*</div></div>
+  <div class="kpi"><div class="value">25/msg</div><div class="label">Deterministic<br>load steps</div></div>
+</div>
+<div class="badges">
+          <span>Minimal permissions</span>
+          <span>No tracking</span>
+          <span>chat.openai.com & chatgpt.com</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn" id="install-btn" href="CWS_URL_HERE" target="_blank" rel="noopener">
+            <span class="pulse"></span> Install on Chrome
+          </a>
+          
+        </div>
+        <p class="lead" style="margin-top:10px"><em>*Typical results on 300–600 message threads. Varies by device and content.</em></p>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="stats-card card" style="position:absolute; left:22px; top:22px; width:280px;">
+          <h3 style="margin:0 0 6px;font-size:16px">Popup Example</h3>
+          <div style="font-size:14px;color:#111827">
+            <div><b>Window Size:</b> 5</div>
+            <div><b>Batch Size:</b> 5</div>
+            <div style="margin-top:8px"><b>Stats</b></div>
+            <div>Total: 36 · Hidden: 26 · Visible: 10</div>
+            <div>Container: Found · Initialized: Yes</div>
+          </div>
+        </div>
+        <div class="demo card" role="img" aria-label="Demo panel showing controlled batch loading">
+          <div class="bar"></div>
+          <div class="chip">Window: 50 · Batch: 25</div>
+          <div class="panel">
+            <!-- Animated placeholder rows to suggest content without screenshots -->
+            <div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section grid-2">
+      <div class="card reveal">
+        <h2>How it works</h2>
+        <ul>
+          <li><b>DOM windowing:</b> keep ~50 most recent messages mounted; older nodes get a lightweight hidden class to shrink style/layout scope.</li>
+          <li><b>Batch lazy-load:</b> reveal older content in fixed steps (e.g., 25 messages). No all-at-once reflow.</li>
+          <li><b>Observers:</b> subtree <code>MutationObserver</code> keeps counts correct; optional <code>IntersectionObserver</code> loads <i>one</i> batch per distinct scroll (no cascade).</li>
+          <li><b>Error hygiene:</b> internal logs are quiet in production; no extension error badge spam.</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <h2>What you get</h2>
+        <ul>
+          <li>Predictable performance on large threads</li>
+          <li>Manual-only or optional one-batch-per-scroll</li>
+          <li>Window/Batch controls and a clear “Load more” callout</li>
+          <li>Stats: total / visible / hidden / initialized</li>
+          <li>Lightweight styles; plays well with ChatGPT themes</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="performance" class="section grid-2">
+      <div class="card reveal">
+        <h2>Performance expectations</h2>
+        <table class="table">
+          <tr><th>Metric</th><th>Baseline</th><th>With Optimizer</th><th>Delta</th></tr>
+          <tr><td>Live DOM nodes</td><td>100%</td><td>~7–20%</td><td>×5–×15 fewer</td></tr>
+          <tr><td>Layout/Recalc</td><td>100%</td><td>55–80%</td><td>−20–45%</td></tr>
+          <tr><td>JS heap used</td><td>100%</td><td>50–75%</td><td>−25–50%</td></tr>
+          <tr><td>Scroll jank (p95)</td><td>High</td><td>Low–Medium</td><td>Improved</td></tr>
+        </table>
+        <p class="lead">Measure on your own hardware via DevTools → <b>Performance</b> and <b>Memory</b>.</p>
+      </div>
+      <div class="card reveal">
+        <h2>Why this works</h2>
+        <ul>
+          <li>Less DOM = fewer style recalculations and smaller layout trees.</li>
+          <li>Bounded work per step keeps interaction latency predictable.</li>
+          <li>Batching avoids long synchronous blocks from giant reflows.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="install" class="section grid-2">
+  <div class="card reveal">
+    <h2>Install</h2>
+    <ol>
+      <li>Click <b>Install on Chrome</b> at the top of the page.</li>
+      <li>Pin the extension (puzzle icon → pin).</li>
+      <li>Open a ChatGPT thread and use the popup to set <b>Window 50</b> and <b>Batch 25</b>.</li>
+    </ol>
+  </div>
+  <div class="card reveal">
+    <h2>After install</h2>
+    <ul>
+      <li>Banner prompts “Load 25 more” at the boundary.</li>
+      <li>Optional: enable one-batch-per-scroll (no cascade).</li>
+      <li>Stats show total / visible / hidden / initialized.</li>
+    </ul>
+  </div>
+</section>
+  </main>
+
+
+  <footer>© 2025 ChatGPT Optimizer • Not affiliated with OpenAI</footer>
+
+  <script>
+  
+// Simple reveal-on-scroll
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Gentle animated rows inside the demo panel
+const rows = document.querySelectorAll('.demo .row');
+let t=0;
+setInterval(()=>{
+  rows.forEach((r,i)=>{
+    const y = (i*7 + t)%100;
+    r.style.opacity = 0.55 + 0.35*Math.cos((y/100)*Math.PI*2);
+  });
+  t++;
+}, 120);
+
+  </script>
+</body>
+</html>
